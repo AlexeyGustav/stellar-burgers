@@ -7,15 +7,18 @@ import { AppHeader } from '@components';
 
 import { Routes, Route } from 'react-router-dom';
 
-const App = () => (
-  <div className={styles.app}>
-    <AppHeader />
-    <Routes>
-      <Route path='/' element={<ConstructorPage />} />
-      <Route path='/feed' element={<Feed />} />
-    </Routes>
-  </div>
-);
+export default function App() {
+  return (
+    <div className={styles.app}>
+      <AppHeader />
+      <Routes>
+        <Route path='/' element={<ConstructorPage />} />
+        <Route path='/feed' element={<Feed />} />
+      </Routes>
+    </div>
+  );
+}
+
 // const App = () => (
 //   <div className={styles.app}>
 //     <AppHeader />
@@ -23,4 +26,4 @@ const App = () => (
 //   </div>
 // );
 
-export default App;
+
