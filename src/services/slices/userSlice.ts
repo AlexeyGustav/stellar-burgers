@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { TUser } from '../utils/types';
-import { getCookie } from '../utils/cookie';
-import { getUserApi } from '../utils/burger-api';
+import { useSelector, useDispatch } from 'react-redux';
+import { TUser } from '../../utils/types';
+import { getCookie } from '../../utils/cookie';
+import { getUserApi } from '../../utils/burger-api';
 
 type TUserState = {
   userData: TUser | null;
@@ -11,6 +12,9 @@ type TUserState = {
   // error: string | null;
   // loading: boolean;
 };
+
+// получение информации о пользователе
+export const getUser = createAsyncThunk('user/getUser', getUserApi);
 
 const initialState: TUserState = {
   userData: null,
@@ -25,6 +29,13 @@ export const userSlice = createSlice({
     authChecked: (state) => {
       state.isAuthChecked = true;
     }
+  },
+  selectors: {
+    getUser: (state) => state.userData,
+    getIngridients: (state) => state.userData
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getUser.fulfilled, (state, action) => {});
   }
 });
 
@@ -43,3 +54,4 @@ export const checkUserAuth = createAsyncThunk(
 );
 
 export const { authChecked } = userSlice.actions;
+// export const { getUser } = userSlice.selectors;

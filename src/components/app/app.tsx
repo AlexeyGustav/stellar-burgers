@@ -22,6 +22,7 @@ export default function App() {
   return (
     <div className={styles.app}>
       <AppHeader />
+      <IngredientDetails />
       <Routes>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
