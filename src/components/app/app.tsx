@@ -19,13 +19,16 @@ import { AppHeader, IngredientDetails, OrderInfo } from '@components';
 import { Routes, Route } from 'react-router-dom';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchIngredientDetails } from '../../services/slices/ingridientsSlice';
+import { getUser } from '../../services/slices/userSlice';
+import { RootState } from 'src/services/store';
 
 export default function App() {
-  const dispatch = useDispatch();
+  const dispatch: ThunkAction<RootState, void> = useDispatch();
 
   useEffect(() => {
-    // dispatch(fetchIngredientDetails());
-    // dispatch(getUser());
+    dispatch(fetchIngredientDetails());
+    dispatch(getUser());
   }, [dispatch]);
 
   return (
