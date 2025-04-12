@@ -1,24 +1,21 @@
 import { FC } from 'react';
 import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  fetchIngredientDetails,
-  getSelectorIngredients
-} from 'src/services/slices/ingridientsSlice';
-import { getUser } from 'src/services/slices/userSlice';
+import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { getSelectorIngredients } from 'src/services/slices/ingridientsSlice';
+import { TIngredient } from '@utils-types';
 
 export const IngredientDetails: FC = () => {
+  const location = useLocation();
   // Компоненты могут использовать useSelector для доступа к состоянию ингредиентов:
-  const ingredientData = useSelector(getSelectorIngredients);
+  const ingredients = useSelector(getSelectorIngredients);
 
-  const dispatch = useDispatch();
+  const id = location.pathname.split('/').pop();
 
-  useEffect(() => {
-    dispatch(fetchIngredientDetails());
-    dispatch(getUser());
-  }, [dispatch]);
+  const ingredientData = ingredients.find(
+    (ingredients: TIngredient) => ingredients._id === id
+  );
 
   if (!ingredientData) {
     return <Preloader />;

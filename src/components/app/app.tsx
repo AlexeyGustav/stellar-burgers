@@ -17,8 +17,17 @@ import styles from './app.module.css';
 import { AppHeader, IngredientDetails, OrderInfo } from '@components';
 
 import { Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // dispatch(fetchIngredientDetails());
+    // dispatch(getUser());
+  }, [dispatch]);
+
   return (
     <div className={styles.app}>
       <AppHeader />

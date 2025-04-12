@@ -20,15 +20,13 @@ const initialState: TIngredientState = {
   error: ''
 };
 
-export const ingridientSlice = createSlice({
+const ingridientSlice = createSlice({
   name: 'ingridients',
   initialState,
   reducers: {},
   selectors: {
     getSelectorIngredientsLoading: (state) => state.loading,
-    getSelectorIngredients: (state) => state.ingredients,
-    getSelectorIngredientId: (state, id: string) =>
-      state.ingredients.find((item) => item._id === id)
+    getSelectorIngredients: (state) => state.ingredients
   },
   extraReducers: (builder) => {
     builder.addCase(fetchIngredientDetails.pending, (state) => {
@@ -46,10 +44,7 @@ export const ingridientSlice = createSlice({
   }
 });
 
-export const {
-  getSelectorIngredientsLoading,
-  getSelectorIngredients,
-  getSelectorIngredientId
-} = ingridientSlice.selectors;
+export const { getSelectorIngredientsLoading, getSelectorIngredients } =
+  ingridientSlice.selectors;
 
 export const ingredientsReducer = ingridientSlice.reducer;
