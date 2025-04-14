@@ -22,19 +22,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchIngredientDetails } from '../../services/slices/ingridientsSlice';
 import { getUser } from '../../services/slices/userSlice';
 import { RootState } from 'src/services/store';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from '@reduxjs/toolkit';
 
 export default function App() {
-  const dispatch: ThunkAction<RootState, void> = useDispatch();
+  const dispatch: ThunkDispatch<RootState, unknown, AnyAction> = useDispatch();
 
   useEffect(() => {
     dispatch(fetchIngredientDetails());
-    dispatch(getUser());
+    // dispatch(getUser());
   }, [dispatch]);
 
   return (
     <div className={styles.app}>
       <AppHeader />
-      <IngredientDetails />
       <Routes>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
