@@ -10,7 +10,7 @@ import { ingredientsReducer } from './slices/ingridientsSlice';
 
 // const rootReducer = () => {}; // Заменить на импорт настоящего редьюсера
 export const rootReducer = combineReducers({
-  ingridients: ingredientsReducer
+  ingredients: ingredientsReducer
 });
 
 const store = configureStore({

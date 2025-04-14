@@ -21,7 +21,7 @@ const initialState: TIngredientState = {
 };
 
 const ingridientSlice = createSlice({
-  name: 'ingridients',
+  name: 'ingredients',
   initialState,
   reducers: {},
   selectors: {
