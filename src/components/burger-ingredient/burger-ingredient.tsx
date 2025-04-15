@@ -7,7 +7,6 @@ import { TBurgerIngredientProps } from './type';
 export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
   ({ ingredient, count }) => {
     const location = useLocation();
-    console.log('location: ', location);
 
     const handleAdd = () => {};
 

@@ -3,9 +3,11 @@ import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useSelector } from 'react-redux';
 import { getSelectorIngredients } from '../../services/slices/ingridientsSlice';
+import { getSelectorConstructorBurger } from '../../services/slices/burgerConstructorSlice';
 
 export const BurgerConstructor: FC = () => {
   const ingredients = useSelector(getSelectorIngredients);
+  const burgerConstructorState = useSelector(getSelectorConstructorBurger);
 
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
   const constructorItems = {
@@ -34,7 +36,7 @@ export const BurgerConstructor: FC = () => {
     [constructorItems]
   );
 
-  return null;
+  // return null;
 
   return (
     <BurgerConstructorUI
