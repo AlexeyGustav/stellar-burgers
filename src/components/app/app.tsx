@@ -18,15 +18,23 @@ import { AppHeader, IngredientDetails, OrderInfo } from '@components';
 
 import { Routes, Route } from 'react-router-dom';
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchIngredientDetails } from '../../services/slices/ingridientsSlice';
+import { useDispatch, useSelector } from '../../services/store';
+import {
+  fetchIngredientDetails,
+  getSelectorIngredients
+} from '../../services/slices/ingridientsSlice';
 import { getUser } from '../../services/slices/userSlice';
 import { RootState } from 'src/services/store';
 import { ThunkDispatch } from 'redux-thunk';
-import { AnyAction } from '@reduxjs/toolkit';
+import { Preloader } from '@ui';
 
 export default function App() {
-  const dispatch: ThunkDispatch<RootState, unknown, AnyAction> = useDispatch();
+  const dispatch = useDispatch();
+  const loader = useSelector(getSelectorIngredients);
+
+  if (!loader) {
+    return <Preloader />;
+  }
 
   useEffect(() => {
     dispatch(fetchIngredientDetails());

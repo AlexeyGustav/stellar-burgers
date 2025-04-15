@@ -6,7 +6,6 @@ import { getSelectorIngredients } from '../../services/slices/ingridientsSlice';
 
 export const BurgerConstructor: FC = () => {
   const ingredients = useSelector(getSelectorIngredients);
-  console.log('ingredients: ', ingredients);
 
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
   const constructorItems = {

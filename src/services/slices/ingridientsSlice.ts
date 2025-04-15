@@ -39,7 +39,7 @@ const ingridientSlice = createSlice({
     });
     builder.addCase(fetchIngredientDetails.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message || 'Unknown error';
+      state.error = action.error.message || 'Неизвестная ошибка';
     });
   }
 });
