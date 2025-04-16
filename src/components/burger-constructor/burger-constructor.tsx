@@ -3,19 +3,24 @@ import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useSelector } from 'react-redux';
 import { getSelectorIngredients } from '../../services/slices/ingridientsSlice';
-import { getSelectorConstructorBurger } from '../../services/slices/burgerConstructorSlice';
+import {
+  getSelectorConstructorBurger,
+  addIngredient
+} from '../../services/slices/burgerConstructorSlice';
 
 export const BurgerConstructor: FC = () => {
-  const ingredients = useSelector(getSelectorIngredients);
-  const burgerConstructorState = useSelector(getSelectorConstructorBurger);
+  const ingredientsData = useSelector(getSelectorIngredients);
+  const constructorItems = useSelector(getSelectorConstructorBurger);
+  const addIngredientBurger = useSelector(addIngredient);
+  // console.log('addIngredientBurger: ', addIngredientBurger);
 
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  const constructorItems = {
-    bun: {
-      price: 0
-    },
-    ingredients: []
-  };
+  // const constructorItems = {
+  //   bun: {
+  //     price: 0
+  //   },
+  //   ingredients: []
+  // };
 
   const orderRequest = false;
 

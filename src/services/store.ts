@@ -11,7 +11,7 @@ import burgerConstructorReducer from './slices/burgerConstructorSlice';
 
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
-  burgerconstructor: burgerConstructorReducer
+  burgerСonstructor: burgerConstructorReducer
 });
 
 const store = configureStore({
