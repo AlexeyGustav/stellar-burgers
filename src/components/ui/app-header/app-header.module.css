@@ -1,12 +1,22 @@
-/* a {
-  color: #FFF;
-  display: flex;
-  text-decoration: none;
-} */
-
 .header {
   background-color: var(--background);
 }
+
+.burger {
+  display: flex;
+  gap: 8px;
+  padding: 0 10px;
+  align-items: center;
+  font-family: 'Jet Brains Mono';
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: normal;
+}
+
+.link_logo{
+  fill: var(--text-inactive-color);
+}
+
 .menu {
   display: flex;
   align-items: center;
@@ -41,3 +51,4 @@
   align-items: center;
   margin: 0 auto;
 }
+
