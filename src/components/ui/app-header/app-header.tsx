@@ -18,12 +18,10 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
             to={'/'}
             className={({ isActive }) => (isActive ? 'link_active' : 'link')}
           >
-            {/* <Link className='link' to='/'> */}
             <BurgerIcon type={'primary'} />
             <span className='text text_type_main-default ml-2 mr-10'>
               Конструктор
             </span>
-            {/* </Link> */}
           </NavLink>
         </>
         <>
