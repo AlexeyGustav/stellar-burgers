@@ -5,53 +5,46 @@ import { getCookie } from '../../utils/cookie';
 import { getUserApi } from '../../utils/burger-api';
 
 type TUserState = {
-  userData: TUser | null;
-  // registerData: TRegisterData;
+  user: TUser | null;
+  isAuthenticated: boolean;
   isAuthChecked: boolean;
-  // isAuthenticated: boolean;
-  // error: string | null;
-  // loading: boolean;
+  loading: boolean;
+  error?: string | null;
 };
 
 // получение информации о пользователе
 export const getUser = createAsyncThunk('user/getUser', getUserApi);
 
 const initialState: TUserState = {
-  userData: null,
-  isAuthChecked: false
-  // .................
+  user: null,
+  isAuthenticated: false,
+  isAuthChecked: true,
+  loading: false,
+  error: null
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {
-    authChecked: (state) => {
-      state.isAuthChecked = true;
-    }
-  },
+  reducers: {},
   selectors: {
-    getUser: (state) => state.userData,
-    getIngridients: (state) => state.userData
+    getUserData: (state) => state.user,
+    getIngridients: (state) => state.user,
+    getAuthChecked: (state) => state.isAuthChecked
   },
   extraReducers: (builder) => {
-    builder.addCase(getUser.fulfilled, (state, action) => {});
+    builder.addCase(getUser.fulfilled, (state, action) => {
+      state.user = action.payload.user;
+      state.isAuthChecked = true;
+      state.isAuthenticated = true;
+      state.loading = false;
+      state.error = null;
+    });
   }
 });
 
-// мы получаем в переменную isAuthChecked статус запроса пользователя. Он используется для отображения прелоадера в момент загрузки информации о пользователе. Само значение isAuthChecked внутри хранилища меняется после попытки получить статус авторизации пользователя:
+export const { getUserData, getIngridients, getAuthChecked } =
+  userSlice.selectors;
 
-export const checkUserAuth = createAsyncThunk(
-  'user/checkUser', // Тип действия (префикс для автоматически генерируемых действий)
-  (_, { dispatch }) => {
-    if (getCookie('accessToken')) {
-      // await dispatch(getUserApi()); // Ожидаем завершения промиса
-      dispatch(authChecked());
-    } else {
-      dispatch(authChecked());
-    }
-  }
-);
-
-export const { authChecked } = userSlice.actions;
-// export const { getUser } = userSlice.selectors;
+const userReducer = userSlice.reducer;
+export default userReducer;

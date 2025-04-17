@@ -8,7 +8,6 @@ import { getSelectorIngredients } from '../../services/slices/ingridientsSlice';
 
 export const BurgerIngredients: FC = () => {
   const ingredients = useSelector(getSelectorIngredients);
-  // console.log('ingredients: ', ingredients);
 
   const buns = ingredients.filter((item) => item.type === 'bun');
   const mains = ingredients.filter((item) => item.type === 'main');

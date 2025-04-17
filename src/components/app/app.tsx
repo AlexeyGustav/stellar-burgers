@@ -10,7 +10,7 @@ import {
   NotFound404
 } from '@pages';
 
-import { ProtectedRoute } from '../protected-route/protected-route';
+import { OnlyUnAuth, ProtectedRoute } from '../protected-route/protected-route';
 import '../../index.css';
 import styles from './app.module.css';
 
@@ -47,53 +47,26 @@ export default function App() {
       <Routes>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
-        <Route
-          path='/login'
-          element={
-            <ProtectedRoute>
-              <Login />
-            </ProtectedRoute>
-          }
-        />
+        <Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
         <Route
           path='/register'
-          element={
-            <ProtectedRoute>
-              <Register />
-            </ProtectedRoute>
-          }
+          element={<OnlyUnAuth component={<Register />} />}
         />
         <Route
           path='/forgot-password'
-          element={
-            <ProtectedRoute>
-              <ForgotPassword />
-            </ProtectedRoute>
-          }
+          element={<OnlyUnAuth component={<ForgotPassword />} />}
         />
         <Route
           path='/reset-password'
-          element={
-            <ProtectedRoute>
-              <ResetPassword />
-            </ProtectedRoute>
-          }
+          element={<OnlyUnAuth component={<ResetPassword />} />}
         />
         <Route
           path='/profile'
-          element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }
+          element={<OnlyUnAuth component={<Profile />} />}
         />
         <Route
           path='/profile/orders'
-          element={
-            <ProtectedRoute>
-              <ProfileOrders />
-            </ProtectedRoute>
-          }
+          element={<OnlyUnAuth component={<ProfileOrders />} />}
         />
         <Route path='*' element={<NotFound404 />} />
         {/* Modals */}
@@ -101,20 +74,9 @@ export default function App() {
         <Route path='/ingredients/:id' element={<IngredientDetails />} />
         <Route
           path='/profile/orders/:number'
-          element={
-            <ProtectedRoute>
-              <OrderInfo />
-            </ProtectedRoute>
-          }
+          element={<OnlyUnAuth component={<OrderInfo />} />}
         />
       </Routes>
     </div>
   );
 }
-
-// const App = () => (
-//   <div className={styles.app}>
-//     <AppHeader />
-//     <ConstructorPage />
-//   </div>
-// );

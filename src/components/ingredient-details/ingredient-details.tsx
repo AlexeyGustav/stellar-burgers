@@ -8,7 +8,6 @@ import { TIngredient } from '@utils-types';
 
 export const IngredientDetails: FC = () => {
   const location = useLocation();
-  // Компоненты могут использовать useSelector для доступа к состоянию ингредиентов:
   const ingredients = useSelector(getSelectorIngredients);
 
   const id = location.pathname.split('/').pop();
