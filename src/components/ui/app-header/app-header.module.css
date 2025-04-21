@@ -25,6 +25,10 @@
   margin: 0 auto;
 }
 
+a {
+  text-decoration: none;
+}
+
 .menu_part_left {
   display: flex;
   flex-basis: 35%;

@@ -14,9 +14,9 @@ import { OnlyUnAuth, ProtectedRoute } from '../protected-route/protected-route';
 import '../../index.css';
 import styles from './app.module.css';
 
-import { AppHeader, IngredientDetails, OrderInfo } from '@components';
+import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
 import {
@@ -31,6 +31,7 @@ import { Preloader } from '@ui';
 export default function App() {
   const dispatch = useDispatch();
   const loader = useSelector(getSelectorIngredients);
+  const navigate = useNavigate();
 
   if (!loader) {
     return <Preloader />;
@@ -40,6 +41,10 @@ export default function App() {
     dispatch(fetchIngredientDetails());
     // dispatch(getUser());
   }, [dispatch]);
+
+  const onClose = () => {
+    navigate(-1);
+  };
 
   return (
     <div className={styles.app}>
@@ -71,7 +76,17 @@ export default function App() {
         <Route path='*' element={<NotFound404 />} />
         {/* Modals */}
         <Route path='/feed/:number' element={<OrderInfo />} />
-        <Route path='/ingredients/:id' element={<IngredientDetails />} />
+
+        <Route
+          path='/ingredients/:id'
+          element={
+            <Modal
+              title={'Модальное окно ингредиента'}
+              onClose={onClose}
+              children={<IngredientDetails />}
+            />
+          }
+        />
         <Route
           path='/profile/orders/:number'
           element={<OnlyUnAuth component={<OrderInfo />} />}
