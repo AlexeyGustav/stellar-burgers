@@ -26,10 +26,25 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
             </div>
           )}
         </NavLink>
-        <>
-          <ListIcon type={'primary'} />
-          <p className='text text_type_main-default ml-2'>Лента заказов</p>
-        </>
+        <NavLink to={'/feed'}>
+          {({ isActive }) => (
+            <div className={styles.burger}>
+              <ListIcon
+                type={'primary'}
+                className={isActive ? styles.link_active : styles.link_logo}
+              />
+              <p
+                className={
+                  'text text_type_main-default ml-2' + isActive
+                    ? styles.link_active
+                    : styles.link
+                }
+              >
+                Лента заказов
+              </p>
+            </div>
+          )}
+        </NavLink>
       </div>
       <div className={styles.logo}>
         <Logo className='' />

@@ -16,7 +16,7 @@ import styles from './app.module.css';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
 import {
@@ -32,6 +32,7 @@ export default function App() {
   const dispatch = useDispatch();
   const loader = useSelector(getSelectorIngredients);
   const navigate = useNavigate();
+  const location = useLocation();
 
   if (!loader) {
     return <Preloader />;
@@ -42,14 +43,16 @@ export default function App() {
     // dispatch(getUser());
   }, [dispatch]);
 
-  const onClose = () => {
+  const backgroundLocation = location.state && location.state.background;
+
+  const handleCloseModal = () => {
     navigate(-1);
   };
 
   return (
     <div className={styles.app}>
       <AppHeader />
-      <Routes>
+      <Routes location={backgroundLocation || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
         <Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
@@ -74,24 +77,38 @@ export default function App() {
           element={<OnlyUnAuth component={<ProfileOrders />} />}
         />
         <Route path='*' element={<NotFound404 />} />
-        {/* Modals */}
-        <Route path='/feed/:number' element={<OrderInfo />} />
-
-        <Route
-          path='/ingredients/:id'
-          element={
-            <Modal
-              title={'Модальное окно ингредиента'}
-              onClose={onClose}
-              children={<IngredientDetails />}
-            />
-          }
-        />
-        <Route
-          path='/profile/orders/:number'
-          element={<OnlyUnAuth component={<OrderInfo />} />}
-        />
       </Routes>
+      {/* Modals */}
+      {backgroundLocation && (
+        <Routes>
+          <Route
+            path='/feed/:number'
+            element={
+              <Modal
+                title={'Информация о заказе'}
+                onClose={handleCloseModal}
+                children={<OrderInfo />}
+              />
+            }
+          />
+
+          <Route
+            path='/ingredients/:id'
+            element={
+              <Modal
+                title={'Модальное окно ингредиента'}
+                onClose={handleCloseModal}
+                children={<IngredientDetails />}
+              />
+            }
+          />
+
+          <Route
+            path='/profile/orders/:number'
+            element={<OnlyUnAuth component={<OrderInfo />} />}
+          />
+        </Routes>
+      )}
     </div>
   );
 }

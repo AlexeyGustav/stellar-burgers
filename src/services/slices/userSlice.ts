@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { useSelector, useDispatch } from 'react-redux';
 import { TUser } from '../../utils/types';
 import { getCookie } from '../../utils/cookie';
 import { getUserApi } from '../../utils/burger-api';
