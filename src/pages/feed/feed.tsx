@@ -13,7 +13,6 @@ import { AppDispatch } from '../../services/store';
 export const Feed: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const feed = useSelector(getSelectorFeed);
-  console.log('feed: ', feed);
 
   const orders: TOrder[] = feed.orders;
 
@@ -32,6 +31,5 @@ export const Feed: FC = () => {
     dispatch(fetchFeed());
     dispatch(clearFeed());
   };
-
-  <FeedUI orders={orders} handleGetFeeds={handleGetFeeds} />;
+  return <FeedUI orders={orders} handleGetFeeds={handleGetFeeds} />;
 };
