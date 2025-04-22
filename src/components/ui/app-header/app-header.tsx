@@ -33,13 +33,7 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
                 type={'primary'}
                 className={isActive ? styles.link_active : styles.link_logo}
               />
-              <p
-                className={
-                  'text text_type_main-default ml-2' + isActive
-                    ? styles.link_active
-                    : styles.link
-                }
-              >
+              <p className={isActive ? styles.link_active : styles.link}>
                 Лента заказов
               </p>
             </div>

@@ -8,9 +8,10 @@ import {
   getSelectorFeed,
   clearFeed
 } from '../../services/slices/feedSlice';
+import { AppDispatch } from '../../services/store';
 
 export const Feed: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const feed = useSelector(getSelectorFeed);
   console.log('feed: ', feed);
 
@@ -18,16 +19,19 @@ export const Feed: FC = () => {
 
   useEffect(() => {
     dispatch(fetchFeed());
+    return () => {
+      dispatch(clearFeed());
+    };
   }, [dispatch]);
 
   if (!orders.length) {
     return <Preloader />;
   }
 
-  // const handleGetFeeds = () => {
-  //   dispatch(fetchFeed());
-  // dispatch(clearFeed());
-  // };
+  const handleGetFeeds = () => {
+    dispatch(fetchFeed());
+    dispatch(clearFeed());
+  };
 
-  <FeedUI orders={orders} handleGetFeeds={() => {}} />;
+  <FeedUI orders={orders} handleGetFeeds={handleGetFeeds} />;
 };
