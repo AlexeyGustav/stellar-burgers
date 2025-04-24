@@ -7,10 +7,15 @@ import {
   getSelectorConstructorBurger,
   addIngredient
 } from '../../services/slices/burgerConstructorSlice';
+import {
+  getOrderData,
+  getSelectorOrder,
+  orderBurger
+} from '../../services/slices/orderSlice';
 
 export const BurgerConstructor: FC = () => {
-  const ingredientsData = useSelector(getSelectorIngredients);
   const constructorItems = useSelector(getSelectorConstructorBurger);
+  console.log('constructorItems: ', constructorItems);
 
   const dispatch = useDispatch();
 
@@ -22,12 +27,21 @@ export const BurgerConstructor: FC = () => {
   //   ingredients: []
   // };
 
-  const orderRequest = false;
-
-  const orderModalData = null;
+  const orderRequest = useSelector(getSelectorOrder);
+  const orderModalData = useSelector(getOrderData);
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
+
+    const bunId = constructorItems ? constructorItems.bun._id : '';
+    const orderIngridients: string[] = [
+      bunId,
+      ...constructorItems.ingredients.map(
+        (ingridient: TConstructorIngredient) => ingridient._id
+      ),
+      bunId
+    ];
+    dispatch(orderBurger(orderIngridients));
   };
   const closeOrderModal = () => {
     // dispatch();

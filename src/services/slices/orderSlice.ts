@@ -43,22 +43,27 @@ const orderSlice = createSlice({
     getSelectorOrder: (state) => state.loading
   },
   extraReducers: (builder) => {
-    // получение заказa
-    builder.addCase(fetchOrders.pending, (state) => {
+    // добавление заказa
+    builder.addCase(orderBurger.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(fetchOrders.fulfilled, (state, action) => {
+    builder.addCase(orderBurger.fulfilled, (state, action) => {
       state.loading = false;
       state.order = action.payload.order;
       state.error = null;
     });
-    builder.addCase(fetchOrders.rejected, (state, action) => {
+    builder.addCase(orderBurger.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message || 'Вы должны быть авторизованы';
+      state.error =
+        action.error.message ||
+        'Необходимо указать идентификаторы ингредиентов';
+      // state.error = action.error.message || 'Вы должны быть авторизованы';
     });
   }
 });
+
+export const { getOrderData, getSelectorOrder } = orderSlice.selectors;
 
 const orderReducer = orderSlice.reducer;
 export default orderReducer;
