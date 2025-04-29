@@ -47,6 +47,8 @@ a {
 .link_position_last {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
   flex-basis: 35%;
 }
 
@@ -56,3 +58,6 @@ a {
   margin: 0 auto;
 }
 
+.link_position_last p {
+  font-family: 'Jet Brains Mono';
+}

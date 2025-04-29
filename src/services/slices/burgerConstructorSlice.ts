@@ -56,6 +56,10 @@ export const burgerConstructorSlice = createSlice({
       ingredients.splice(toIndex, 0, movedIngredient); // Вставляем элемент в toIndex
 
       state.ingredients = ingredients; // Обновляем состояние
+    },
+    clearIngridients: (state) => {
+      state.bun = null;
+      state.ingredients = [];
     }
   },
   selectors: {
@@ -63,7 +67,7 @@ export const burgerConstructorSlice = createSlice({
   }
 });
 
-export const { addIngredient, removeIngredient, handleMove } =
+export const { addIngredient, removeIngredient, handleMove, clearIngridients } =
   burgerConstructorSlice.actions;
 
 export const { getSelectorConstructorBurger } =

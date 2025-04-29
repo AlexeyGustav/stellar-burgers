@@ -23,10 +23,11 @@ import {
   fetchIngredientDetails,
   getSelectorIngredients
 } from '../../services/slices/ingridientsSlice';
-import { getUser } from '../../services/slices/userSlice';
+import { getUserData, getUser } from '../../services/slices/userSlice';
 import { RootState } from 'src/services/store';
 import { ThunkDispatch } from 'redux-thunk';
 import { Preloader } from '@ui';
+import { getCookie } from '../../utils/cookie';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -40,8 +41,11 @@ export default function App() {
 
   useEffect(() => {
     dispatch(fetchIngredientDetails());
-    // dispatch(getUser());
-  }, [dispatch]);
+    const accessToken = getCookie('accessToken');
+    console.log(`accessToken:`, accessToken);
+    if (!accessToken) return;
+    dispatch(getUser());
+  }, []);
 
   const backgroundLocation = location.state && location.state.background;
 
@@ -96,7 +100,7 @@ export default function App() {
             path='/ingredients/:id'
             element={
               <Modal
-                title={'Модальное окно ингредиента'}
+                title={'Детали ингредиента'}
                 onClose={handleCloseModal}
                 children={<IngredientDetails />}
               />

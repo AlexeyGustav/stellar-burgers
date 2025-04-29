@@ -65,5 +65,7 @@ const orderSlice = createSlice({
 
 export const { getOrderData, getSelectorOrder } = orderSlice.selectors;
 
+export const { clearBurgerOrder } = orderSlice.actions;
+
 const orderReducer = orderSlice.reducer;
 export default orderReducer;

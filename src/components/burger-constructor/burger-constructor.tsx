@@ -1,13 +1,13 @@
 import { FC, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
-import { useDispatch, useSelector } from 'react-redux';
-import { getSelectorIngredients } from '../../services/slices/ingridientsSlice';
+import { useDispatch, useSelector } from '../../services/store';
 import {
   getSelectorConstructorBurger,
-  addIngredient
+  clearIngridients
 } from '../../services/slices/burgerConstructorSlice';
 import {
+  clearBurgerOrder,
   getOrderData,
   getSelectorOrder,
   orderBurger
@@ -15,24 +15,15 @@ import {
 
 export const BurgerConstructor: FC = () => {
   const constructorItems = useSelector(getSelectorConstructorBurger);
-  console.log('constructorItems: ', constructorItems);
 
   const dispatch = useDispatch();
-
-  /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  // const constructorItems = {
-  //   bun: {
-  //     price: 0
-  //   },
-  //   ingredients: []
-  // };
 
   const orderRequest = useSelector(getSelectorOrder);
   const orderModalData = useSelector(getOrderData);
 
+  // Оформить заказ
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
-
     const bunId = constructorItems ? constructorItems.bun._id : '';
     const orderIngridients: string[] = [
       bunId,
@@ -43,8 +34,10 @@ export const BurgerConstructor: FC = () => {
     ];
     dispatch(orderBurger(orderIngridients));
   };
+  // Закрыть модальное окно с идетификатором заказа
   const closeOrderModal = () => {
-    // dispatch();
+    dispatch(clearIngridients());
+    dispatch(clearBurgerOrder());
   };
 
   const price = useMemo(
