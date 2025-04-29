@@ -7,7 +7,8 @@ import {
   logoutApi,
   registerUserApi,
   TLoginData,
-  TRegisterData
+  TRegisterData,
+  updateUserApi
 } from '../../utils/burger-api';
 
 type TUserState = {
@@ -19,18 +20,23 @@ type TUserState = {
 };
 
 // получение информации о пользователе
-export const getUser = createAsyncThunk('user/fetchGetUser', getUserApi);
+export const getUser = createAsyncThunk('user/fetchUser', getUserApi);
 
 // вход пользователя
 export const loginUser = createAsyncThunk(
   'user/loginUser',
   async (data: TLoginData) => {
-    const dataUser = await loginUserApi(data);
-    localStorage.setItem('accessToken', dataUser.accessToken); // Сохранение токенов
-    localStorage.setItem('refreshToken', dataUser.refreshToken); // Сохранение токенов
-    setCookie('refreshToken', dataUser.refreshToken);
-    setCookie('accessToken', dataUser.accessToken);
-    return dataUser;
+    try {
+      const dataUser = await loginUserApi(data);
+      console.log('dataUser: ', dataUser);
+      localStorage.setItem('accessToken', dataUser.accessToken); // Сохранение токенов
+      localStorage.setItem('refreshToken', dataUser.refreshToken); // Сохранение токенов
+      setCookie('refreshToken', dataUser.refreshToken);
+      setCookie('accessToken', dataUser.accessToken);
+      return dataUser;
+    } catch (error) {
+      throw error;
+    }
   }
 );
 
@@ -38,12 +44,16 @@ export const loginUser = createAsyncThunk(
 export const registerUser = createAsyncThunk(
   'user/fetchRegister',
   async (data: TRegisterData) => {
-    const userRegistration = await registerUserApi(data);
-    localStorage.setItem('accessToken', userRegistration.accessToken);
-    localStorage.setItem('refreshToken', userRegistration.refreshToken);
-    setCookie('refreshToken', userRegistration.refreshToken);
-    setCookie('accessToken', userRegistration.accessToken);
-    return userRegistration;
+    try {
+      const userRegistration = await registerUserApi(data);
+      localStorage.setItem('accessToken', userRegistration.accessToken);
+      localStorage.setItem('refreshToken', userRegistration.refreshToken);
+      setCookie('refreshToken', userRegistration.refreshToken);
+      setCookie('accessToken', userRegistration.accessToken);
+      return userRegistration;
+    } catch (error) {
+      throw error;
+    }
   }
 );
 
@@ -59,6 +69,19 @@ export const logoutUser = createAsyncThunk('user/fetchLogout', async () => {
     throw error;
   }
 });
+
+// обновление данных пользователя
+export const updateUser = createAsyncThunk(
+  'user/fetchUpdateUser',
+  async (user: Partial<TRegisterData>) => {
+    try {
+      console.log(`новые данные пользователя`, user);
+      return updateUserApi(user);
+    } catch (error) {
+      throw error;
+    }
+  }
+);
 
 const initialState: TUserState = {
   user: null,
@@ -126,10 +149,26 @@ export const userSlice = createSlice({
       state.loading = false;
       state.error = action.error.message || 'Не найдено, ошибка registerUser';
     });
+    builder.addCase(updateUser.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(updateUser.fulfilled, (state, action) => {
+      state.loading = false;
+      state.isAuthChecked = true;
+      state.isAuthenticated = true;
+      state.user = action.payload.user;
+      state.error = null;
+    });
+    builder.addCase(updateUser.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || 'Не найдено, ошибка updateUser';
+    });
   }
 });
 
-export const { getUserData, getAuthChecked } = userSlice.selectors;
+export const { getUserData, getAuthChecked, isAuthenticated } =
+  userSlice.selectors;
 
 const userReducer = userSlice.reducer;
 export default userReducer;

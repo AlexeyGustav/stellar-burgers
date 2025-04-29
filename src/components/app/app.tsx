@@ -10,7 +10,7 @@ import {
   NotFound404
 } from '@pages';
 
-import { OnlyUnAuth, ProtectedRoute } from '../protected-route/protected-route';
+import { OnlyUnAuth } from '../protected-route/protected-route';
 import '../../index.css';
 import styles from './app.module.css';
 
@@ -23,11 +23,8 @@ import {
   fetchIngredientDetails,
   getSelectorIngredients
 } from '../../services/slices/ingridientsSlice';
-import { getUserData, getUser } from '../../services/slices/userSlice';
-import { RootState } from 'src/services/store';
-import { ThunkDispatch } from 'redux-thunk';
+import { getUser } from '../../services/slices/userSlice';
 import { Preloader } from '@ui';
-import { getCookie } from '../../utils/cookie';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -41,9 +38,9 @@ export default function App() {
 
   useEffect(() => {
     dispatch(fetchIngredientDetails());
-    const accessToken = getCookie('accessToken');
-    console.log(`accessToken:`, accessToken);
-    if (!accessToken) return;
+    // const token = localStorage.getItem('refreshToken');
+    // if (token) {
+    // }
     dispatch(getUser());
   }, []);
 
