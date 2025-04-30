@@ -32,16 +32,16 @@ export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  if (!loader) {
-    return <Preloader />;
-  }
+  // if (!loader) {
+  //   return <Preloader />;
+  // }
 
   useEffect(() => {
     dispatch(fetchIngredientDetails());
-    // const token = localStorage.getItem('refreshToken');
-    // if (token) {
-    // }
-    dispatch(getUser());
+    const token = localStorage.getItem('refreshToken');
+    if (token) {
+      dispatch(getUser());
+    }
   }, []);
 
   const backgroundLocation = location.state && location.state.background;

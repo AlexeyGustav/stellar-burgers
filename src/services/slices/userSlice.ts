@@ -27,13 +27,13 @@ export const loginUser = createAsyncThunk(
   'user/loginUser',
   async (data: TLoginData) => {
     try {
-      const dataUser = await loginUserApi(data);
-      console.log('dataUser: ', dataUser);
-      localStorage.setItem('accessToken', dataUser.accessToken); // Сохранение токенов
-      localStorage.setItem('refreshToken', dataUser.refreshToken); // Сохранение токенов
-      setCookie('refreshToken', dataUser.refreshToken);
-      setCookie('accessToken', dataUser.accessToken);
-      return dataUser;
+      const response = await loginUserApi(data);
+      console.log('dataUser: ', response);
+      localStorage.setItem('accessToken', response.accessToken); // Сохранение токенов
+      localStorage.setItem('refreshToken', response.refreshToken); // Сохранение токенов
+      setCookie('refreshToken', response.refreshToken);
+      setCookie('accessToken', response.accessToken);
+      return response;
     } catch (error) {
       throw error;
     }
@@ -45,12 +45,12 @@ export const registerUser = createAsyncThunk(
   'user/fetchRegister',
   async (data: TRegisterData) => {
     try {
-      const userRegistration = await registerUserApi(data);
-      localStorage.setItem('accessToken', userRegistration.accessToken);
-      localStorage.setItem('refreshToken', userRegistration.refreshToken);
-      setCookie('refreshToken', userRegistration.refreshToken);
-      setCookie('accessToken', userRegistration.accessToken);
-      return userRegistration;
+      const response = await registerUserApi(data);
+      localStorage.setItem('accessToken', response.accessToken);
+      localStorage.setItem('refreshToken', response.refreshToken);
+      setCookie('refreshToken', response.refreshToken);
+      setCookie('accessToken', response.accessToken);
+      return response;
     } catch (error) {
       throw error;
     }
@@ -60,11 +60,11 @@ export const registerUser = createAsyncThunk(
 // выход из системы
 export const logoutUser = createAsyncThunk('user/fetchLogout', async () => {
   try {
-    const res = await logoutApi();
+    const response = await logoutApi();
     localStorage.clear();
     deleteCookie('refreshToken');
     deleteCookie('accessToken');
-    return res;
+    return response;
   } catch (error) {
     throw error;
   }
