@@ -20,23 +20,41 @@ type TUserState = {
 };
 
 // получение информации о пользователе
-export const getUser = createAsyncThunk('user/fetchUser', getUserApi);
+export const getUser = createAsyncThunk(
+  'user/fetchGetUser',
+  async (_, { dispatch, rejectWithValue }) => {
+    console.log('Запускаю получение пользователя...');
+
+    try {
+      const reply = await getUserApi();
+
+      if (!reply.success) {
+        console.error(`API вернуло ошибку: ${JSON.stringify(reply)}`);
+        return rejectWithValue(reply); // Возвращаем объект ошибки дальше
+      }
+
+      console.log('Получены успешные данные:', JSON.stringify(reply));
+      return reply; // Если всё хорошо — возвращаем данные
+    } catch (error) {
+      console.error('Ошибка сети или неизвестная ошибка:', error);
+      return rejectWithValue('Ошибка'); // Обработка общей ошибки
+    }
+  }
+);
+// console.log('getUser: ', getUser);
 
 // вход пользователя
 export const loginUser = createAsyncThunk(
-  'user/loginUser',
+  'user/login',
   async (data: TLoginData) => {
-    try {
-      const response = await loginUserApi(data);
-      console.log('dataUser: ', response);
-      localStorage.setItem('accessToken', response.accessToken); // Сохранение токенов
-      localStorage.setItem('refreshToken', response.refreshToken); // Сохранение токенов
-      setCookie('refreshToken', response.refreshToken);
-      setCookie('accessToken', response.accessToken);
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    const dataUser = await loginUserApi(data);
+    console.log(data);
+    setCookie('accessToken', dataUser.accessToken);
+    // localStorage.setItem('accessToken', dataUser.accessToken); // Сохранение токенов
+    localStorage.setItem('refreshToken', dataUser.refreshToken); // Сохранение токенов
+    // setCookie('refreshToken', dataUser.refreshToken);
+    // setCookie('accessToken', dataUser.accessToken);
+    return dataUser;
   }
 );
 

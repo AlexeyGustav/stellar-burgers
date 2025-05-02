@@ -9,8 +9,8 @@ export const Profile: FC = () => {
   console.log('user: ', user);
 
   const [formValue, setFormValue] = useState({
-    name: user!.name ?? '',
-    email: user!.email ?? '',
+    name: user?.name || '',
+    email: user?.email || '',
     password: ''
   });
 
@@ -29,9 +29,9 @@ export const Profile: FC = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    if (user?.email !== formValue.email || user?.name !== formValue.name) {
-      dispatch(updateUser(formValue));
-    }
+    // if (user?.email !== formValue.email || user?.name !== formValue.name) {
+    // }
+    dispatch(updateUser(formValue));
   };
 
   const handleCancel = (e: SyntheticEvent) => {

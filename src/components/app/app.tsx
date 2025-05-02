@@ -39,6 +39,7 @@ export default function App() {
   useEffect(() => {
     dispatch(fetchIngredientDetails());
     const token = localStorage.getItem('refreshToken');
+    console.log('token: ', token);
     if (token) {
       dispatch(getUser());
     }
@@ -56,27 +57,34 @@ export default function App() {
       <Routes location={backgroundLocation || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
-        <Route path='/login' element={<OnlyUnAuth component={<Login />} />} />
-        <Route
+        {/* <Route path='/login' element={<OnlyUnAuth component={<Login />} />} /> */}
+        <Route path='/login' element={<Login />} />
+        {/* <Route
           path='/register'
           element={<OnlyUnAuth component={<Register />} />}
-        />
-        <Route
+        /> */}
+        {/* <Route
           path='/forgot-password'
           element={<OnlyUnAuth component={<ForgotPassword />} />}
         />
         <Route
           path='/reset-password'
           element={<OnlyUnAuth component={<ResetPassword />} />}
-        />
-        <Route
+        /> */}
+
+        <Route path='/forgot-password' element={<Register />} />
+        <Route path='/reset-password' element={<ForgotPassword />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/profile/orders' element={<ProfileOrders />} />
+
+        {/* <Route
           path='/profile'
           element={<OnlyUnAuth component={<Profile />} />}
-        />
-        <Route
+        /> */}
+        {/* <Route
           path='/profile/orders'
           element={<OnlyUnAuth component={<ProfileOrders />} />}
-        />
+        /> */}
         <Route path='*' element={<NotFound404 />} />
       </Routes>
       {/* Modals */}
