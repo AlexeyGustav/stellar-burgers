@@ -15,19 +15,23 @@ export const orderBurger = createAsyncThunk(
 
 export const getOrderByNumber = createAsyncThunk(
   'order/getOrderByNumber',
-  async (number: number) => getOrderByNumberApi(number)
+  async (number: number) => {
+    getOrderByNumberApi(number);
+  }
 );
 
 type TOrderState = {
   error: string | null;
   order: TOrder | null;
+  orders: TOrder[];
   loading: boolean;
 };
 
 export const initialState: TOrderState = {
   error: null,
   order: null,
-  loading: false
+  loading: false,
+  orders: []
 };
 
 const orderSlice = createSlice({
@@ -42,8 +46,33 @@ const orderSlice = createSlice({
     getOrderData: (state) => state.order,
     getSelectorOrder: (state) => state.loading
   },
-  extraReducers: (builder) => {
-    // добавление заказa
+  extraReducers(builder) {
+    builder.addCase(fetchOrders.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchOrders.fulfilled, (state, action) => {
+      state.loading = false;
+      state.orders = action.payload;
+    });
+    builder.addCase(fetchOrders.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message ?? null;
+    });
+
+    builder.addCase(getOrderByNumber.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getOrderByNumber.fulfilled, (state, action) => {
+      state.loading = false;
+      state.order = action.payload.orders[0];
+    });
+    builder.addCase(getOrderByNumber.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message ?? null;
+    });
+
     builder.addCase(orderBurger.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -51,14 +80,11 @@ const orderSlice = createSlice({
     builder.addCase(orderBurger.fulfilled, (state, action) => {
       state.loading = false;
       state.order = action.payload.order;
-      state.error = null;
+      state.orders.push(action.payload.order);
     });
     builder.addCase(orderBurger.rejected, (state, action) => {
       state.loading = false;
-      state.error =
-        action.error.message ||
-        'Необходимо указать идентификаторы ингредиентов';
-      // state.error = action.error.message || 'Вы должны быть авторизованы';
+      state.error = action.error.message ?? null;
     });
   }
 });
