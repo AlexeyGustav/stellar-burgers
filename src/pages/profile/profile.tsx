@@ -6,7 +6,6 @@ import { getUserData, updateUser } from '../../services/slices/userSlice';
 export const Profile: FC = () => {
   const dispatch = useDispatch();
   const user = useSelector(getUserData);
-  console.log('user: ', user);
 
   const [formValue, setFormValue] = useState({
     name: user?.name || '',
@@ -29,16 +28,14 @@ export const Profile: FC = () => {
 
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    // if (user?.email !== formValue.email || user?.name !== formValue.name) {
-    // }
     dispatch(updateUser(formValue));
   };
 
   const handleCancel = (e: SyntheticEvent) => {
     e.preventDefault();
     setFormValue({
-      name: user!.name,
-      email: user!.email,
+      name: user?.name || '',
+      email: user?.email || '',
       password: ''
     });
   };

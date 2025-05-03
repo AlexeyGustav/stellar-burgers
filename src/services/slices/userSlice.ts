@@ -41,7 +41,6 @@ export const getUser = createAsyncThunk(
     }
   }
 );
-// console.log('getUser: ', getUser);
 
 // вход пользователя
 export const loginUser = createAsyncThunk(
@@ -49,6 +48,7 @@ export const loginUser = createAsyncThunk(
   async (data: TLoginData) => {
     const dataUser = await loginUserApi(data);
     console.log(data);
+    console.log('dataUser: ', dataUser);
     setCookie('accessToken', dataUser.accessToken);
     // localStorage.setItem('accessToken', dataUser.accessToken); // Сохранение токенов
     localStorage.setItem('refreshToken', dataUser.refreshToken); // Сохранение токенов
@@ -62,16 +62,12 @@ export const loginUser = createAsyncThunk(
 export const registerUser = createAsyncThunk(
   'user/fetchRegister',
   async (data: TRegisterData) => {
-    try {
-      const response = await registerUserApi(data);
-      localStorage.setItem('accessToken', response.accessToken);
-      localStorage.setItem('refreshToken', response.refreshToken);
-      setCookie('refreshToken', response.refreshToken);
-      setCookie('accessToken', response.accessToken);
-      return response;
-    } catch (error) {
-      throw error;
-    }
+    const response = await registerUserApi(data);
+    localStorage.setItem('accessToken', response.accessToken);
+    localStorage.setItem('refreshToken', response.refreshToken);
+    setCookie('refreshToken', response.refreshToken);
+    setCookie('accessToken', response.accessToken);
+    return response;
   }
 );
 
@@ -131,7 +127,7 @@ export const userSlice = createSlice({
       state.error = null;
     });
     builder.addCase(getUser.rejected, (state, action) => {
-      state.loading = false;
+      state.loading = true;
       state.error =
         action.error.message || 'Вы должны быть уполномочены, ошибка getUser';
     });

@@ -17,7 +17,7 @@ import styles from './app.module.css';
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
 import {
   fetchIngredientDetails,
@@ -28,9 +28,15 @@ import { Preloader } from '@ui';
 
 export default function App() {
   const dispatch = useDispatch();
-  const loader = useSelector(getSelectorIngredients);
+  // const loader = useSelector(getSelectorIngredients);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const backgroundLocation = location.state && location.state.background;
+
+  const handleCloseModal = () => {
+    navigate(-1);
+  };
 
   // if (!loader) {
   //   return <Preloader />;
@@ -45,12 +51,6 @@ export default function App() {
     }
   }, []);
 
-  const backgroundLocation = location.state && location.state.background;
-
-  const handleCloseModal = () => {
-    navigate(-1);
-  };
-
   return (
     <div className={styles.app}>
       <AppHeader />
@@ -58,7 +58,6 @@ export default function App() {
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
         {/* <Route path='/login' element={<OnlyUnAuth component={<Login />} />} /> */}
-        <Route path='/login' element={<Login />} />
         {/* <Route
           path='/register'
           element={<OnlyUnAuth component={<Register />} />}
@@ -72,6 +71,8 @@ export default function App() {
           element={<OnlyUnAuth component={<ResetPassword />} />}
         /> */}
 
+        <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<Register />} />
         <Route path='/forgot-password' element={<Register />} />
         <Route path='/reset-password' element={<ForgotPassword />} />
         <Route path='/profile' element={<Profile />} />
