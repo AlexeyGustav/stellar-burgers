@@ -10,7 +10,7 @@ import {
   NotFound404
 } from '@pages';
 
-import { OnlyUnAuth } from '../protected-route/protected-route';
+// import { OnlyUnAuth } from '../protected-route/protected-route';
 import '../../index.css';
 import styles from './app.module.css';
 
@@ -25,6 +25,7 @@ import {
 } from '../../services/slices/ingridientsSlice';
 import { getUser } from '../../services/slices/userSlice';
 import { Preloader } from '@ui';
+import { ProtectedRoute } from '../protected-route/protected-route';
 
 export default function App() {
   const dispatch = useDispatch();
@@ -57,35 +58,56 @@ export default function App() {
       <Routes location={backgroundLocation || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
-        {/* <Route path='/login' element={<OnlyUnAuth component={<Login />} />} /> */}
-        {/* <Route
+
+        <Route
+          path='/login'
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <Login />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path='/register'
-          element={<OnlyUnAuth component={<Register />} />}
-        /> */}
-        {/* <Route
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <Register />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path='/forgot-password'
-          element={<OnlyUnAuth component={<ForgotPassword />} />}
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <ForgotPassword />
+            </ProtectedRoute>
+          }
         />
         <Route
           path='/reset-password'
-          element={<OnlyUnAuth component={<ResetPassword />} />}
-        /> */}
-
-        <Route path='/login' element={<Login />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/forgot-password' element={<Register />} />
-        <Route path='/reset-password' element={<ForgotPassword />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/profile/orders' element={<ProfileOrders />} />
-
-        {/* <Route
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <ResetPassword />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path='/profile'
-          element={<OnlyUnAuth component={<Profile />} />}
-        /> */}
-        {/* <Route
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path='/profile/orders'
-          element={<OnlyUnAuth component={<ProfileOrders />} />}
-        /> */}
+          element={
+            <ProtectedRoute>
+              <ProfileOrders />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path='*' element={<NotFound404 />} />
       </Routes>
       {/* Modals */}
@@ -115,7 +137,11 @@ export default function App() {
 
           <Route
             path='/profile/orders/:number'
-            element={<OnlyUnAuth component={<OrderInfo />} />}
+            element={
+              <ProtectedRoute>
+                <OrderInfo />
+              </ProtectedRoute>
+            }
           />
         </Routes>
       )}

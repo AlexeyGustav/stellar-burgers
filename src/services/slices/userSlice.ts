@@ -50,10 +50,7 @@ export const loginUser = createAsyncThunk(
     console.log(data);
     console.log('dataUser: ', dataUser);
     setCookie('accessToken', dataUser.accessToken);
-    // localStorage.setItem('accessToken', dataUser.accessToken); // Сохранение токенов
-    localStorage.setItem('refreshToken', dataUser.refreshToken); // Сохранение токенов
-    // setCookie('refreshToken', dataUser.refreshToken);
-    // setCookie('accessToken', dataUser.accessToken);
+    localStorage.setItem('refreshToken', dataUser.refreshToken);
     return dataUser;
   }
 );
@@ -63,9 +60,7 @@ export const registerUser = createAsyncThunk(
   'user/fetchRegister',
   async (data: TRegisterData) => {
     const response = await registerUserApi(data);
-    localStorage.setItem('accessToken', response.accessToken);
     localStorage.setItem('refreshToken', response.refreshToken);
-    setCookie('refreshToken', response.refreshToken);
     setCookie('accessToken', response.accessToken);
     return response;
   }
@@ -76,7 +71,6 @@ export const logoutUser = createAsyncThunk('user/fetchLogout', async () => {
   try {
     const response = await logoutApi();
     localStorage.clear();
-    deleteCookie('refreshToken');
     deleteCookie('accessToken');
     return response;
   } catch (error) {

@@ -1,44 +1,35 @@
-import { Navigate, useLocation } from 'react-router-dom';
 import { getUserData, getAuthChecked } from '../../services/slices/userSlice';
-import { useSelector } from '../../services/store';
+import React from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
 import { Preloader } from '@ui';
+import { useSelector } from '../../services/store';
 
 type ProtectedRouteProps = {
+  children: React.ReactElement;
   onlyUnAuth?: boolean;
-  component: React.JSX.Element;
 };
 
 export const ProtectedRoute = ({
-  onlyUnAuth = true,
-  component
-}: ProtectedRouteProps): React.JSX.Element => {
-  const user = useSelector(getUserData);
-  const isAuthChecked = useSelector(getAuthChecked);
-  const location = useLocation();
+  onlyUnAuth,
+  children
+}: ProtectedRouteProps) => {
+  const currentLocation = useLocation();
 
-  if (!isAuthChecked) {
+  const userInfo = useSelector(getUserData);
+  const authVerified = useSelector(getAuthChecked);
+
+  if (!authVerified && userInfo !== null) {
     return <Preloader />;
   }
 
-  if (!onlyUnAuth && !user) {
-    // маршрут для авторизованного, но не авторизован
-    return <Navigate to='/login' replace state={{ from: location }} />;
+  if (onlyUnAuth && userInfo) {
+    const redirectPath = currentLocation.state?.from || { pathname: '/' };
+    return <Navigate replace to={redirectPath} />;
   }
 
-  if (onlyUnAuth && user) {
-    // маршрут для неавторизованного, но авторизован
-    const { from } = location.state ?? { from: { pathname: '/' } };
-    return <Navigate replace to={from} />;
+  if (!onlyUnAuth && !userInfo) {
+    return <Navigate replace to='/login' state={{ from: currentLocation }} />;
   }
 
-  // onlyUnAuth && !user для неавторизованного и неавторизован
-  // !onlyUnAuth && user для авторизованного и авторизован
-
-  return component;
+  return children;
 };
-
-export const OnlyUnAuth = ProtectedRoute;
-
-export const OnlyAuth = ({ component }: { component: React.JSX.Element }) => (
-  <ProtectedRoute onlyUnAuth component={component} />
-);

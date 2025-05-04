@@ -12,17 +12,23 @@ import {
   getSelectorOrder,
   orderBurger
 } from '../../services/slices/orderSlice';
+import { isAuthenticated } from '../../services/slices/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {
-  const constructorItems = useSelector(getSelectorConstructorBurger);
-
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
+  const constructorItems = useSelector(getSelectorConstructorBurger);
+  const authenticated = useSelector(isAuthenticated);
   const orderRequest = useSelector(getSelectorOrder);
   const orderModalData = useSelector(getOrderData);
 
   // Оформить заказ
   const onOrderClick = () => {
+    if (!authenticated) {
+      navigate('/login');
+      return;
+    }
     if (!constructorItems.bun || orderRequest) return;
     const bunId = constructorItems ? constructorItems.bun._id : '';
     const orderIngridients: string[] = [
