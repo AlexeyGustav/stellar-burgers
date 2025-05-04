@@ -144,15 +144,6 @@ export default function App() {
               />
             }
           />
-
-          {/* <Route
-            path='/profile/orders/:number'
-            element={
-              <ProtectedRoute>
-                <OrderInfo />
-              </ProtectedRoute>
-            }
-          /> */}
         </Routes>
       )}
     </div>
