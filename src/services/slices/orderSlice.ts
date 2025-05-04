@@ -7,6 +7,7 @@ import {
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export const fetchOrders = createAsyncThunk('order/getOrders', getOrdersApi);
+console.log('fetchOrders: ', fetchOrders);
 
 export const getOrderByNumber = createAsyncThunk(
   'order/getOrderByNumber',
@@ -42,6 +43,7 @@ const orderSlice = createSlice({
   },
   selectors: {
     getOrderData: (state) => state.order,
+    getOrdersData: (state) => state.orders,
     getSelectorOrder: (state) => state.loading
   },
   extraReducers(builder) {
@@ -55,7 +57,7 @@ const orderSlice = createSlice({
     });
     builder.addCase(fetchOrders.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message ?? null;
+      state.error = action.error.message || 'Не найдено, ошибка fetchOrders';
     });
 
     builder.addCase(getOrderByNumber.pending, (state) => {
@@ -68,7 +70,8 @@ const orderSlice = createSlice({
     });
     builder.addCase(getOrderByNumber.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message ?? null;
+      state.error =
+        action.error.message || 'Не найдено, ошибка getOrderByNumber';
     });
 
     builder.addCase(orderBurger.pending, (state) => {
@@ -82,12 +85,13 @@ const orderSlice = createSlice({
     });
     builder.addCase(orderBurger.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.error.message ?? null;
+      state.error = action.error.message || 'Не найдено, ошибка orderBurger';
     });
   }
 });
 
-export const { getOrderData, getSelectorOrder } = orderSlice.selectors;
+export const { getOrderData, getSelectorOrder, getOrdersData } =
+  orderSlice.selectors;
 
 export const { clearBurgerOrder } = orderSlice.actions;
 

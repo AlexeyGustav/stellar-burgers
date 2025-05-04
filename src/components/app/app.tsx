@@ -10,7 +10,6 @@ import {
   NotFound404
 } from '@pages';
 
-// import { OnlyUnAuth } from '../protected-route/protected-route';
 import '../../index.css';
 import styles from './app.module.css';
 
@@ -29,7 +28,7 @@ import { ProtectedRoute } from '../protected-route/protected-route';
 
 export default function App() {
   const dispatch = useDispatch();
-  // const loader = useSelector(getSelectorIngredients);
+  const loader = useSelector(getSelectorIngredients);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -39,9 +38,9 @@ export default function App() {
     navigate(-1);
   };
 
-  // if (!loader) {
-  //   return <Preloader />;
-  // }
+  if (!loader) {
+    return <Preloader />;
+  }
 
   useEffect(() => {
     dispatch(fetchIngredientDetails());
@@ -138,11 +137,22 @@ export default function App() {
           <Route
             path='/profile/orders/:number'
             element={
+              <Modal
+                title={'Заказ'}
+                onClose={handleCloseModal}
+                children={<OrderInfo />}
+              />
+            }
+          />
+
+          {/* <Route
+            path='/profile/orders/:number'
+            element={
               <ProtectedRoute>
                 <OrderInfo />
               </ProtectedRoute>
             }
-          />
+          /> */}
         </Routes>
       )}
     </div>
