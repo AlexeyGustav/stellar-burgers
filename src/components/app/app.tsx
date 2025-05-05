@@ -15,7 +15,13 @@ import styles from './app.module.css';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  useNavigate,
+  useLocation,
+  Navigate
+} from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
 import {
@@ -45,7 +51,6 @@ export default function App() {
   useEffect(() => {
     dispatch(fetchIngredientDetails());
     const token = localStorage.getItem('refreshToken');
-    console.log('token: ', token);
     if (token) {
       dispatch(getUser());
     }
@@ -57,6 +62,7 @@ export default function App() {
       <Routes location={backgroundLocation || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
+        <Route path='/feed/:numder' element={<OrderInfo />} />
 
         <Route
           path='/login'
@@ -106,6 +112,14 @@ export default function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path='/profile/orders/:number'
+          element={
+            <ProtectedRoute>
+              <Navigate to={'/profile/orders'} replace />
+            </ProtectedRoute>
+          }
+        />
 
         <Route path='*' element={<NotFound404 />} />
       </Routes>
@@ -137,11 +151,11 @@ export default function App() {
           <Route
             path='/profile/orders/:number'
             element={
-              <Modal
-                title={'Заказ'}
-                onClose={handleCloseModal}
-                children={<OrderInfo />}
-              />
+              <Modal title={'Заказ'} onClose={handleCloseModal}>
+                <ProtectedRoute>
+                  <OrderInfo />
+                </ProtectedRoute>
+              </Modal>
             }
           />
         </Routes>

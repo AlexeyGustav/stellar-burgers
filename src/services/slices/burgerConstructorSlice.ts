@@ -4,15 +4,15 @@ import { TConstructorIngredient, TIngredient } from '@utils-types';
 type IBurgerConstructorSlice = {
   bun: TIngredient | null;
   ingredients: TConstructorIngredient[];
-  orderRequest: boolean;
-  orderModalData: null;
+  // orderRequest: boolean;
+  // orderModalData: null;
 };
 
 const initialState: IBurgerConstructorSlice = {
   bun: null,
-  ingredients: [],
-  orderRequest: false,
-  orderModalData: null
+  ingredients: []
+  // orderRequest: false,
+  // orderModalData: null
 };
 
 export const burgerConstructorSlice = createSlice({

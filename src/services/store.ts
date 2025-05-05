@@ -10,13 +10,15 @@ import { ingredientsReducer } from './slices/ingridientsSlice';
 import burgerConstructorReducer from './slices/burgerConstructorSlice';
 import feedReducer from './slices/feedSlice';
 import orderReducer from './slices/orderSlice';
+import orderInfoReducer from './slices/orderInfoSlice';
 
 export const rootReducer = combineReducers({
   ingredients: ingredientsReducer,
   burgerСonstructor: burgerConstructorReducer,
   user: userReducer,
   feed: feedReducer,
-  order: orderReducer
+  order: orderReducer,
+  orderInfo: orderInfoReducer
 });
 
 const store = configureStore({

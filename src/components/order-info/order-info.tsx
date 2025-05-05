@@ -3,23 +3,21 @@ import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { getSelectorIngredients } from '../../services/slices/ingridientsSlice';
-import {
-  getOrderByNumber,
-  getOrderData
-} from '../../services/slices/orderSlice';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../services/store';
+import {
+  getOrderByNumber,
+  getOrderInfo
+} from '../../services/slices/orderInfoSlice';
 
 export const OrderInfo: FC = () => {
   const { number } = useParams();
   const dispatch = useDispatch();
-  const orderData = useSelector(getOrderData);
+  const orderData = useSelector(getOrderInfo);
   const ingredients = useSelector(getSelectorIngredients);
 
   useEffect(() => {
-    if (number) {
-      dispatch(getOrderByNumber(Number(number)));
-    }
+    dispatch(getOrderByNumber(Number(number)));
   }, [dispatch, number]);
 
   /* Готовим данные для отображения */

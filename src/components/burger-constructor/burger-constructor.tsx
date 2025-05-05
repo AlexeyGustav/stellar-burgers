@@ -9,7 +9,7 @@ import {
 import {
   clearBurgerOrder,
   getOrderData,
-  getSelectorOrder,
+  getOrderRequest,
   orderBurger
 } from '../../services/slices/orderSlice';
 import { isAuthenticated } from '../../services/slices/userSlice';
@@ -20,8 +20,8 @@ export const BurgerConstructor: FC = () => {
   const navigate = useNavigate();
   const constructorItems = useSelector(getSelectorConstructorBurger);
   const authenticated = useSelector(isAuthenticated);
-  const orderRequest = useSelector(getSelectorOrder);
   const orderModalData = useSelector(getOrderData);
+  const orderRequest = useSelector(getOrderRequest);
 
   // Оформить заказ
   const onOrderClick = () => {

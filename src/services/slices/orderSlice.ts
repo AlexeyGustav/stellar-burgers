@@ -1,18 +1,8 @@
 import { TOrder } from '@utils-types';
-import {
-  getOrderByNumberApi,
-  getOrdersApi,
-  orderBurgerApi
-} from '../../utils/burger-api';
+import { getOrdersApi, orderBurgerApi } from '../../utils/burger-api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export const fetchOrders = createAsyncThunk('order/getOrders', getOrdersApi);
-console.log('fetchOrders: ', fetchOrders);
-
-export const getOrderByNumber = createAsyncThunk(
-  'order/getOrderByNumber',
-  async (number: number) => getOrderByNumberApi(number)
-);
 
 export const orderBurger = createAsyncThunk(
   'order/orderBurger',
@@ -24,13 +14,15 @@ type TOrderState = {
   order: TOrder | null;
   orders: TOrder[];
   loading: boolean;
+  orderRequest: boolean;
 };
 
 export const initialState: TOrderState = {
   error: null,
   order: null,
   loading: false,
-  orders: []
+  orders: [],
+  orderRequest: false
 };
 
 const orderSlice = createSlice({
@@ -44,54 +36,38 @@ const orderSlice = createSlice({
   selectors: {
     getOrderData: (state) => state.order,
     getOrdersData: (state) => state.orders,
-    getSelectorOrder: (state) => state.loading
+    getSelectorOrder: (state) => state.loading,
+    getOrderRequest: (state) => state.orderRequest
   },
-  extraReducers(builder) {
-    builder.addCase(fetchOrders.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    });
-    builder.addCase(fetchOrders.fulfilled, (state, action) => {
-      state.loading = false;
-      state.orders = action.payload;
-    });
-    builder.addCase(fetchOrders.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message || 'Не найдено, ошибка fetchOrders';
-    });
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchOrders.fulfilled, (state, action) => {
+        state.orders = action.payload;
+      })
+      .addCase(fetchOrders.rejected, (state, action) => {
+        state.error = action.error.message || 'Не найдено, ошибка fetchOrders';
+      })
 
-    builder.addCase(getOrderByNumber.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    });
-    builder.addCase(getOrderByNumber.fulfilled, (state, action) => {
-      state.loading = false;
-      state.order = action.payload.orders[0];
-    });
-    builder.addCase(getOrderByNumber.rejected, (state, action) => {
-      state.loading = false;
-      state.error =
-        action.error.message || 'Не найдено, ошибка getOrderByNumber';
-    });
-
-    builder.addCase(orderBurger.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    });
-    builder.addCase(orderBurger.fulfilled, (state, action) => {
-      state.loading = false;
-      state.order = action.payload.order;
-      state.orders.push(action.payload.order);
-    });
-    builder.addCase(orderBurger.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.error.message || 'Не найдено, ошибка orderBurger';
-    });
+      .addCase(orderBurger.pending, (state) => {
+        state.orderRequest = true;
+        state.order = null;
+      })
+      .addCase(orderBurger.fulfilled, (state, action) => {
+        state.order = action.payload.order;
+        state.orderRequest = false;
+      })
+      .addCase(orderBurger.rejected, (state, action) => {
+        state.error = action.error.message || 'Не найдено, ошибка orderBurger';
+      });
   }
 });
 
-export const { getOrderData, getSelectorOrder, getOrdersData } =
-  orderSlice.selectors;
+export const {
+  getOrderData,
+  getSelectorOrder,
+  getOrdersData,
+  getOrderRequest
+} = orderSlice.selectors;
 
 export const { clearBurgerOrder } = orderSlice.actions;
 
