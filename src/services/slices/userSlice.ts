@@ -47,8 +47,6 @@ export const loginUser = createAsyncThunk(
   'user/login',
   async (data: TLoginData) => {
     const dataUser = await loginUserApi(data);
-    console.log(data);
-    console.log('dataUser: ', dataUser);
     setCookie('accessToken', dataUser.accessToken);
     localStorage.setItem('refreshToken', dataUser.refreshToken);
     return dataUser;
