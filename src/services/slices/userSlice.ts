@@ -119,7 +119,7 @@ export const userSlice = createSlice({
       state.error = null;
     });
     builder.addCase(getUser.rejected, (state, action) => {
-      state.loading = true;
+      state.loading = false;
       state.error =
         action.error.message || 'Вы должны быть уполномочены, ошибка getUser';
     });
@@ -169,6 +169,21 @@ export const userSlice = createSlice({
     builder.addCase(updateUser.rejected, (state, action) => {
       state.loading = false;
       state.error = action.error.message || 'Не найдено, ошибка updateUser';
+    });
+    builder.addCase(logoutUser.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(logoutUser.fulfilled, (state) => {
+      state.loading = false;
+      state.isAuthChecked = true;
+      state.isAuthenticated = false;
+      state.user = null;
+      state.error = null;
+    });
+    builder.addCase(logoutUser.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.error.message || 'Не найдено, ошибка logoutUser';
     });
   }
 });

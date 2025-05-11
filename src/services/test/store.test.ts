@@ -16,7 +16,6 @@ const initialState = {
 };
 
 describe('rootReducer test', () => {
-
   it('Проверяем правильную инициализацию', () => {
     const state = store.getState();
     expect(state).toEqual(initialState);

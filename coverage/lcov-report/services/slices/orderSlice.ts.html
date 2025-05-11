@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">88% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>66/75</span>
+                <span class='fraction'>75/75</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">77.77% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>7/9</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">33.33% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>2/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>1/1</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">16.66% </span>
-                <span class="quiet">Functions</span>
-                <span class='fraction'>1/6</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">88% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>66/75</span>
+                <span class='fraction'>75/75</span>
             </div>
         
             
@@ -170,8 +170,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -182,22 +180,24 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -244,9 +244,9 @@ const orderSlice = createSlice({
   name: 'order',
   initialState,
   reducers: {
-    clearBurgerOrder: <span class="fstat-no" title="function not covered" >(state) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      state.order = null;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+    clearBurgerOrder: (state) =&gt; {
+      state.order = null;
+    }
   },
   selectors: {
     getOrderData: <span class="fstat-no" title="function not covered" >(state) =&gt; state.</span>order,
@@ -257,22 +257,22 @@ const orderSlice = createSlice({
   extraReducers: (builder) =&gt; {
     builder
       .addCase(fetchOrders.fulfilled, (state, action) =&gt; {
-<span class="cstat-no" title="statement not covered" >        state.orders = action.payload;</span>
+        state.orders = action.payload;
       })
       .addCase(fetchOrders.rejected, (state, action) =&gt; {
-<span class="cstat-no" title="statement not covered" >        state.error = action.error.message || 'Не найдено, ошибка fetchOrders';</span>
+        state.error = action.error.message<span class="branch-0 cbranch-no" title="branch not covered" > || 'Не найдено, ошибка fetchOrders';</span>
       })
 &nbsp;
       .addCase(orderBurger.pending, (state) =&gt; {
-<span class="cstat-no" title="statement not covered" >        state.orderRequest = true;</span>
-<span class="cstat-no" title="statement not covered" >        state.order = null;</span>
+        state.orderRequest = true;
+        state.order = null;
       })
       .addCase(orderBurger.fulfilled, (state, action) =&gt; {
-<span class="cstat-no" title="statement not covered" >        state.order = action.payload.order;</span>
-<span class="cstat-no" title="statement not covered" >        state.orderRequest = false;</span>
+        state.order = action.payload.order;
+        state.orderRequest = false;
       })
       .addCase(orderBurger.rejected, (state, action) =&gt; {
-<span class="cstat-no" title="statement not covered" >        state.error = action.error.message || 'Не найдено, ошибка orderBurger';</span>
+        state.error = action.error.message<span class="branch-0 cbranch-no" title="branch not covered" > || 'Не найдено, ошибка orderBurger';</span>
       });
   }
 });
@@ -295,7 +295,7 @@ export default orderReducer;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-05-11T14:54:55.325Z
+                at 2025-05-11T20:52:34.725Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

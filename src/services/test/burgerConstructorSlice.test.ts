@@ -2,41 +2,41 @@ import { omit } from 'lodash';
 
 import burgerConstructorReducer, {
   initialState,
-  addIngredient, 
-  removeIngredient, 
+  addIngredient,
+  removeIngredient,
   handleMove
 } from '../slices/burgerConstructorSlice';
 
 describe('burgerConstructor test', () => {
   const mockIngredientBun = {
-    _id: "643d69a5c3f7b9001cfa093c",
-    id: "643d69a5c3f7b9001cfa093c",
-    name: "Краторная булка N-200i",
-    type: "bun",
+    _id: '643d69a5c3f7b9001cfa093c',
+    id: '643d69a5c3f7b9001cfa093c',
+    name: 'Краторная булка N-200i',
+    type: 'bun',
     proteins: 80,
     fat: 24,
     carbohydrates: 53,
     calories: 420,
     price: 1255,
-    image: "https://code.s3.yandex.net/react/code/bun-02.png",
-    image_mobile: "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
-    image_large: "https://code.s3.yandex.net/react/code/bun-02-large.png"
-  }
+    image: 'https://code.s3.yandex.net/react/code/bun-02.png',
+    image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
+    image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png'
+  };
 
   const mockIngredientMain = {
-    _id: "643d69a5c3f7b9001cfa093e",
-    id: "643d69a5c3f7b9001cfa093e",
-    name: "Филе Люминесцентного тетраодонтимформа",
-    type: "main",
+    _id: '643d69a5c3f7b9001cfa093e',
+    id: '643d69a5c3f7b9001cfa093e',
+    name: 'Филе Люминесцентного тетраодонтимформа',
+    type: 'main',
     proteins: 44,
     fat: 26,
     carbohydrates: 85,
     calories: 643,
     price: 988,
-    image: "https://code.s3.yandex.net/react/code/meat-03.png",
-    image_mobile: "https://code.s3.yandex.net/react/code/meat-03-mobile.png",
-    image_large: "https://code.s3.yandex.net/react/code/meat-03-large.png"
-  }
+    image: 'https://code.s3.yandex.net/react/code/meat-03.png',
+    image_mobile: 'https://code.s3.yandex.net/react/code/meat-03-mobile.png',
+    image_large: 'https://code.s3.yandex.net/react/code/meat-03-large.png'
+  };
 
   const mockIngredientMain2 = {
     _id: '643d69a5c3f7b9001cfa093f',
@@ -50,22 +50,28 @@ describe('burgerConstructor test', () => {
     price: 988,
     image: 'https://code.s3.yandex.net/react/code/meat-03.png',
     image_mobile: 'https://code.s3.yandex.net/react/code/meat-03-mobile.png',
-    image_large: 'https://code.s3.yandex.net/react/code/meat-03-large.png',
+    image_large: 'https://code.s3.yandex.net/react/code/meat-03-large.png'
   };
-  
+
   it('добавление ингридиента', () => {
     const bunAction = addIngredient(mockIngredientBun);
     const bunState = burgerConstructorReducer(initialState, bunAction);
 
-    expect(bunState.bun).toEqual(expect.objectContaining(omit(mockIngredientBun, 'id')));
+    expect(bunState.bun).toEqual(
+      expect.objectContaining(omit(mockIngredientBun, 'id'))
+    );
     expect(bunState.ingredients).toEqual([]);
 
     const mainAction = addIngredient(mockIngredientMain);
     const mainState = burgerConstructorReducer(bunState, mainAction);
 
-    expect(mainState.bun).toEqual(expect.objectContaining(omit(mockIngredientBun, 'id')));
+    expect(mainState.bun).toEqual(
+      expect.objectContaining(omit(mockIngredientBun, 'id'))
+    );
     expect(mainState.ingredients).toHaveLength(1);
-    expect(mainState.ingredients[0]).toEqual(expect.objectContaining(omit(mockIngredientMain, 'id')));
+    expect(mainState.ingredients[0]).toEqual(
+      expect.objectContaining(omit(mockIngredientMain, 'id'))
+    );
     expect(mainState.ingredients[0]).toHaveProperty('id');
   });
 
@@ -86,7 +92,9 @@ describe('burgerConstructor test', () => {
     const removeState = burgerConstructorReducer(mainState, removeAction);
 
     // Утверждения
-    expect(removeState.bun).toEqual(expect.objectContaining(omit(mockIngredientBun, 'id')));
+    expect(removeState.bun).toEqual(
+      expect.objectContaining(omit(mockIngredientBun, 'id'))
+    );
     expect(removeState.ingredients).toHaveLength(0);
   });
 
@@ -105,7 +113,7 @@ describe('burgerConstructor test', () => {
     // получаем ожидаемое состояние после перемещения
     const sortedIngredients = [
       { ...omit(mockIngredientMain2, 'id'), id: ingredient2Id },
-      { ...omit(mockIngredientMain, 'id'), id: ingredient1Id },
+      { ...omit(mockIngredientMain, 'id'), id: ingredient1Id }
     ];
 
     const fromIndex = 0;
