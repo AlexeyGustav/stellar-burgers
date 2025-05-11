@@ -14,13 +14,13 @@ type TIngredientState = {
   error?: string | null;
 };
 
-const initialState: TIngredientState = {
+export const initialState: TIngredientState = {
   ingredients: [],
   loading: false,
   error: ''
 };
 
-const ingridientSlice = createSlice({
+export const ingridientSlice = createSlice({
   name: 'ingredients',
   initialState,
   reducers: {},
@@ -48,3 +48,4 @@ export const { getSelectorIngredientsLoading, getSelectorIngredients } =
   ingridientSlice.selectors;
 
 export const ingredientsReducer = ingridientSlice.reducer;
+export default ingredientsReducer;

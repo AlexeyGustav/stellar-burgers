@@ -1,4 +1,4 @@
-import { getOrderByNumberApi } from '@api';
+import { getOrderByNumberApi } from '../../utils/burger-api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 
@@ -19,7 +19,7 @@ export const initialState: TOrderInfo = {
   order: null
 };
 
-const orderInfoSlice = createSlice({
+export const orderInfoSlice = createSlice({
   name: 'orderInfo',
   initialState,
   reducers: {},

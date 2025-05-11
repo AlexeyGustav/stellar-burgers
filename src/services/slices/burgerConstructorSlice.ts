@@ -4,15 +4,13 @@ import { TConstructorIngredient, TIngredient } from '@utils-types';
 type IBurgerConstructorSlice = {
   bun: TIngredient | null;
   ingredients: TConstructorIngredient[];
-  // orderRequest: boolean;
-  // orderModalData: null;
+  loading: boolean; // Добавляем свойство loading
 };
 
-const initialState: IBurgerConstructorSlice = {
+export const initialState: IBurgerConstructorSlice = {
   bun: null,
-  ingredients: []
-  // orderRequest: false,
-  // orderModalData: null
+  ingredients: [],
+  loading: false
 };
 
 export const burgerConstructorSlice = createSlice({
