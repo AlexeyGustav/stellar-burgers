@@ -1,12 +1,32 @@
 .header {
   background-color: var(--background);
 }
+
+.burger {
+  display: flex;
+  gap: 8px;
+  padding: 0 10px;
+  align-items: center;
+  font-family: 'Jet Brains Mono';
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: normal;
+}
+
+.link_logo{
+  fill: var(--text-inactive-color);
+}
+
 .menu {
   display: flex;
   align-items: center;
   max-width: 1240px;
   height: 56px;
   margin: 0 auto;
+}
+
+a {
+  text-decoration: none;
 }
 
 .menu_part_left {
@@ -27,6 +47,8 @@
 .link_position_last {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
   flex-basis: 35%;
 }
 
@@ -34,4 +56,8 @@
   display: flex;
   align-items: center;
   margin: 0 auto;
+}
+
+.link_position_last p {
+  font-family: 'Jet Brains Mono';
 }
